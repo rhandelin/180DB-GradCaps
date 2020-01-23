@@ -84,26 +84,22 @@ def sendMessageTo(targetBluetoothMacAddress):
   sock.close()
   
 def sendDoneMessage(targetBluetoothMacAddress):
+  #This is an implementation of an ACK
   port = 1
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   sock.connect((targetBluetoothMacAddress, port))
   sock.send("done!")
   sock.close()
   
-def lookUpNearbyBluetoothDevices():
+def lookUpNearbyBluetoothDevices(verbose = False):
   nearby_devices = bluetooth.discover_devices()
-  for bdaddr in nearby_devices:
-    print (str(bluetooth.lookup_name( bdaddr )) + " [" + str(bdaddr) + "]")
+  if verbose == True:
+    for bdaddr in nearby_devices:
+      print (str(bluetooth.lookup_name( bdaddr )) + " [" + str(bdaddr) + "]")
+  return nearby_devices
 
-
-def connect_to_server(address,serv_num):
+def connect_to_server(address,uuid):
   addr = address
-  if serv_num == 1:
-    server_num = "bbf39d29-7d6d-437d-973b-fba39e49d4ee"
-  elif serv_num == 2:
-    server_num = "ccf39d29-7d6d-437d-973b-fba39e49d4ee"
-  else:
-    server_num = "aaf39d29-7d6d-437d-973b-fba39e49d4ee"
   
   # search for the SampleServer service
   uuid = server_num
@@ -125,7 +121,7 @@ def connect_to_server(address,serv_num):
   sock.connect((host, port))
 
   print("connected.  type stuff")
-  return sock
+  return sock, service_matches
   
 receiveMessages()   
 #sendMessageTo("B8:27:EB:88:3F:16") 

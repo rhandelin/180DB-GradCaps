@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Install non-essential tools useful for network analysis
+sudo apt-get install vim socat oping bmon iperf3 -y
